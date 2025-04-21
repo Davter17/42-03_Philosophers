@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:01:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/22 01:56:25 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:58:42 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void		printing_routine(t_simul *simulation, int id, char state);
 // UTILS //
 int			ft_atoi(const char *nptr);
 long long	get_time(t_simul *simulation, bool actual);
-void	*ft_calloc(size_t nmemb, size_t size);
+void		*ft_calloc(size_t nmemb, size_t size);
 
 #endif
