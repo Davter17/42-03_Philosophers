@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:09:41 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 03:20:13 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:14:12 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,14 @@ static int	check_dead(t_simul *simulation)
 	while (philo)
 	{
 		time = (get_time(simulation, 1)) - philo->last_meal;
-		if (time >= simulation->die_t && !philo->eating)
-			return (philo->id);
+		if (time >= simulation->die_t)
+		{
+			if (pthread_mutex_trylock(&philo->eating) == 0)
+			{
+				pthread_mutex_unlock(&philo->eating);
+				return (philo->id);
+			}
+		}
 		philo = philo->next;
 		if (philo->id == first_id)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:42:12 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 03:14:53 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:28:46 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_fork	*loading_philosopher_fork(int id, t_philo *philo, t_simul *simulation)
 	philo->last_meal = 0;
 	philo->meals_eaten = 0;
 	philo->simulation = simulation;
-	philo->eating = false;
 	new_fork = malloc(sizeof(t_fork));
 	if (!new_fork)
 		return (NULL);

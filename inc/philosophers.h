@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:01:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 03:17:32 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:21:05 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_philo
 	struct s_philo	*next;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
-	bool			eating;
+	pthread_mutex_t	eating;
 	long long		last_meal;
 	int				meals_eaten;
 	struct s_simul	*simulation;

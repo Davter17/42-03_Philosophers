@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 04:47:06 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 03:15:21 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:14:52 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	*routine(void *arg)
 		pthread_mutex_lock(&philo->r_fork->mutex);
 		printing_routine(simulation, philo->id, 'f');
 		printing_routine(simulation, philo->id, 'e');
-		philo->eating = true;
+		pthread_mutex_lock(&philo->eating);
 		usleep(simulation->eat_t * 1000);
-		philo->eating = false;
+		pthread_mutex_unlock(&philo->eating);
 		philo->last_meal = get_time(simulation, 1);
 		philo->meals_eaten += 1;
 		pthread_mutex_unlock(&philo->l_fork->mutex);
@@ -37,6 +37,7 @@ void	*routine(void *arg)
 		printing_routine(simulation, philo->id, 's');
 		usleep(simulation->sleep_t * 1000);
 	}
+	printf("%lld philo %d end.\n", (get_time(simulation, 1)), philo->id);
 	return (NULL);
 }
 
