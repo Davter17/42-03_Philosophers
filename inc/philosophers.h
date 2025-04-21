@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:01:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/21 23:21:05 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:56:25 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_simul
 	t_philo			*first_philo;
 	long long		start_time;
 	pthread_mutex_t	print_lock;
-	pthread_t		victory_id;
+	pthread_t		vict_id;
 	pthread_t		dead_id;
 	bool			end_simulation;
 }	t_simul;
@@ -69,5 +69,6 @@ void		printing_routine(t_simul *simulation, int id, char state);
 // UTILS //
 int			ft_atoi(const char *nptr);
 long long	get_time(t_simul *simulation, bool actual);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif

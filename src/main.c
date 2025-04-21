@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:07:22 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 01:03:21 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:49:41 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	wait_for_threads(t_simul *simulation)
 		i++;
 	}
 	pthread_join(simulation->dead_id, NULL);
-	pthread_join(simulation->victory_id, NULL);
+	if (simulation->victory != 0)
+		pthread_join(simulation->vict_id, NULL);
+
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:24:39 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/16 03:17:41 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:56:15 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,21 @@ long long	get_time(t_simul *simulation, bool actual)
 	if (actual)
 		time -= simulation->start_time;
 	return (time);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*arr;
+	size_t	i;
+
+	arr = malloc(nmemb * size);
+	if (!arr)
+		return (NULL);
+	i = 0;
+	while (i < (nmemb * size))
+	{
+		((unsigned char *)arr)[i] = 0;
+		i++;
+	}
+	return (arr);
 }

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:42:12 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/21 23:28:46 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:56:39 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_fork	*loading_philosopher_fork(int id, t_philo *philo, t_simul *simulation)
 	if (!new_fork)
 		return (NULL);
 	pthread_mutex_init(&new_fork->mutex, NULL);
+	pthread_mutex_init(&philo->eating, NULL);
 	new_fork->id = id;
 	philo->r_fork = new_fork;
 	return (new_fork);
@@ -40,7 +41,7 @@ bool	loading_philosophers(t_simul *simulation)
 	prev_philo = NULL;
 	while (++i <= simulation->philo_n)
 	{
-		current_philo = malloc(sizeof(t_philo));
+		current_philo = ft_calloc(1, sizeof(t_philo));
 		if (!current_philo)
 			return (0);
 		if (i == 1)
@@ -78,7 +79,7 @@ t_simul	*loading_simulation(int argc, char **argv)
 
 	if (!check_arguments(argv))
 		return (NULL);
-	simulation = malloc(sizeof(t_simul));
+	simulation = ft_calloc(1, sizeof(t_simul));
 	if (!simulation)
 		return (NULL);
 	simulation->philo_n = ft_atoi(argv[1]);
@@ -86,6 +87,7 @@ t_simul	*loading_simulation(int argc, char **argv)
 	simulation->eat_t = ft_atoi(argv[3]);
 	simulation->sleep_t = ft_atoi(argv[4]);
 	simulation->end_simulation = false;
+	pthread_mutex_init(&simulation->print_lock, NULL);
 	if (argc == 6)
 		simulation->victory = ft_atoi(argv[5]);
 	if (!loading_philosophers(simulation))
