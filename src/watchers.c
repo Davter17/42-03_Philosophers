@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:09:41 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/22 01:28:26 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:51:02 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ static bool	check_victory(t_simul *simulation)
 	first_id = philo->id;
 	while (philo)
 	{
+		pthread_mutex_lock(&philo->eating);
 		if (philo->meals_eaten < simulation->victory)
+		{
+			pthread_mutex_unlock(&philo->eating);
 			return (0);
+		}
+		pthread_mutex_unlock(&philo->eating);
 		philo = philo->next;
 		if (philo->id == first_id)
 			break ;
@@ -35,8 +40,15 @@ void	*victory_watcher(void *arg)
 	t_simul	*simulation;
 
 	simulation = (t_simul *)arg;
-	while (!simulation->end_simulation)
+	while (1)
 	{
+		pthread_mutex_lock(&simulation->end_lock);
+		if (simulation->end_simulation)
+		{
+			pthread_mutex_unlock(&simulation->end_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&simulation->end_lock);
 		if (check_victory(simulation))
 		{
 			printing_routine(simulation, 0, 'v');
@@ -49,23 +61,19 @@ void	*victory_watcher(void *arg)
 
 static int	check_dead(t_simul *simulation)
 {
-	t_philo	*philo;
-	int		first_id;
-	int		time;
+	t_philo		*philo;
+	int			first_id;
+	long long	time_since_last_meal;
 
 	philo = simulation->first_philo;
 	first_id = philo->id;
 	while (philo)
 	{
-		time = (get_time(simulation, 1)) - philo->last_meal;
-		if (time >= simulation->die_t)
-		{
-			if (pthread_mutex_trylock(&philo->eating) == 0)
-			{
-				pthread_mutex_unlock(&philo->eating);
-				return (philo->id);
-			}
-		}
+		pthread_mutex_lock(&philo->eating);
+		time_since_last_meal = get_time(simulation, 1) - philo->last_meal;
+		pthread_mutex_unlock(&philo->eating);
+		if (time_since_last_meal >= simulation->die_t)
+			return (philo->id);
 		philo = philo->next;
 		if (philo->id == first_id)
 			break ;
@@ -79,8 +87,15 @@ void	*dead_watcher(void *arg)
 	int		dead_id;
 
 	simulation = (t_simul *)arg;
-	while (!simulation->end_simulation)
+	while (1)
 	{
+		pthread_mutex_lock(&simulation->end_lock);
+		if (simulation->end_simulation)
+		{
+			pthread_mutex_unlock(&simulation->end_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&simulation->end_lock);
 		dead_id = check_dead(simulation);
 		if (dead_id != 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:01:18 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/22 01:58:42 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:25:09 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 # define PHILOSOPHERS_H
 
 # include <unistd.h>
-# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
-
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -53,6 +51,7 @@ typedef struct s_simul
 	pthread_mutex_t	print_lock;
 	pthread_t		vict_id;
 	pthread_t		dead_id;
+	pthread_mutex_t	end_lock;
 	bool			end_simulation;
 }	t_simul;
 
