@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:42:12 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/22 20:13:08 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:42:54 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	check_arguments(char **argv)
 		if (i == 1 && ft_atoi(argv[i]) > 200)
 			return (0);
 		if (i != 1 && i != 5 && ft_atoi(argv[i]) < 60)
-			return (printf("%i\n", i), 0);
+			return (0);
 		i++;
 	}
 	return (1);

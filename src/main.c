@@ -6,7 +6,7 @@
 /*   By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 02:07:22 by mpico-bu          #+#    #+#             */
-/*   Updated: 2025/04/22 01:58:36 by mpico-bu         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:44:25 by mpico-bu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	t_simul	*simulation;
 
 	if (argc != 5 && argc != 6)
-		return (1);
+		return (printf("Error"), 1);
 	simulation = loading_simulation(argc, argv);
 	if (!simulation)
 		return (free_simulation(simulation), 1);
