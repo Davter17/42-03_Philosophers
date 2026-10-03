@@ -35,10 +35,14 @@ int	main(int argc, char **argv)
 	t_simul	*simulation;
 
 	if (argc != 5 && argc != 6)
-		return (printf("Error"), 1);
+		return (printf("Error: wrong number of arguments\n"), 1);
 	simulation = loading_simulation(argc, argv);
 	if (!simulation)
-		return (free_simulation(simulation), 1);
+	{
+		printf("Error: invalid arguments\n");
+		free_simulation(simulation);
+		return (1);
+	}
 	inicializate_simulation(simulation);
 	wait_for_threads(simulation);
 	free_simulation(simulation);

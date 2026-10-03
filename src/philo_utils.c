@@ -20,16 +20,15 @@ void	free_simulation(t_simul *simulation)
 
 	if (!simulation)
 		return ;
-	if (simulation ->first_philo)
+	if (simulation->first_philo)
 	{
 		current_philo = simulation->first_philo;
 		i = 0;
 		while (i < simulation->philo_n)
 		{
 			free(current_philo->r_fork);
-			if (current_philo->next)
-				next_philo = current_philo->next;
-			free (current_philo);
+			next_philo = current_philo->next;
+			free(current_philo);
 			current_philo = next_philo;
 			i++;
 		}

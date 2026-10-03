@@ -30,6 +30,21 @@ t_fork	*loading_philosopher_fork(int id, t_philo *philo, t_simul *simulation)
 	return (new_fork);
 }
 
+static t_philo	*create_philo(int id, t_fork *left_fork, t_simul *simulation)
+{
+	t_philo	*new_philo;
+	t_fork	*right_fork;
+
+	new_philo = ft_calloc(1, sizeof(t_philo));
+	if (!new_philo)
+		return (NULL);
+	new_philo->l_fork = left_fork;
+	right_fork = loading_philosopher_fork(id, new_philo, simulation);
+	if (!right_fork)
+		return (free(new_philo), NULL);
+	return (new_philo);
+}
+
 bool	loading_philosophers(t_simul *simulation)
 {
 	int		i;
@@ -39,17 +54,15 @@ bool	loading_philosophers(t_simul *simulation)
 
 	i = 0;
 	prev_philo = NULL;
+	new_fork = NULL;
 	while (++i <= simulation->philo_n)
 	{
-		current_philo = ft_calloc(1, sizeof(t_philo));
+		current_philo = create_philo(i, new_fork, simulation);
 		if (!current_philo)
 			return (0);
 		if (i == 1)
 			simulation->first_philo = current_philo;
-		current_philo->l_fork = new_fork;
-		new_fork = loading_philosopher_fork(i, current_philo, simulation);
-		if (!new_fork)
-			return (0);
+		new_fork = current_philo->r_fork;
 		if (prev_philo)
 			prev_philo->next = current_philo;
 		prev_philo = current_philo;
@@ -96,6 +109,6 @@ t_simul	*loading_simulation(int argc, char **argv)
 		simulation->victory = ft_atoi(argv[5]);
 	if (!loading_philosophers(simulation))
 		return (NULL);
-	pthread_mutex_init(&simulation->print_lock, NULL);
+	pthread_mutex_init(&simulation->end_lock, NULL);
 	return (simulation);
 }

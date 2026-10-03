@@ -46,13 +46,9 @@ void	*routine_preparation(void *arg)
 {
 	t_philo			*philo;
 	t_simul			*simulation;
-	pthread_mutex_t	*first;
-	pthread_mutex_t	*second;
 
 	philo = (t_philo *)arg;
 	simulation = philo->simulation;
-	first = ft_calloc(1, sizeof(pthread_mutex_t *));
-	second = ft_calloc(1, sizeof(pthread_mutex_t *));
 	while (1)
 	{
 		pthread_mutex_lock(&simulation->end_lock);
@@ -62,10 +58,8 @@ void	*routine_preparation(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&simulation->end_lock);
-		routine(first, second, philo, simulation);
+		routine(NULL, NULL, philo, simulation);
 	}
-	free(first);
-	free(second);
 	return (NULL);
 }
 

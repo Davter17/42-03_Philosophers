@@ -1,54 +1,42 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mpico-bu <mpico-bu@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/05 20:39:17 by mpico-bu          #+#    #+#              #
-#    Updated: 2025/04/22 20:13:51 by mpico-bu         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = philo
 
-SRCS = 	src/main.c \
-		src/utils.c \
-		src/philo_utils.c \
-		src/start.c \
-		src/routine.c \
-		src/watchers.c
-		
-OBJDIR = obj
+SRCS_DIR = src
+OBJ_DIR = obj
+INC_DIR = inc
 
-OBJS = 	obj/main.o \
-		obj/utils.o \
-		obj/philo_utils.o \
-		obj/start.o \
-		obj/routine.o \
-		obj/watchers.o
+SRCS = $(SRCS_DIR)/main.c \
+       $(SRCS_DIR)/utils.c \
+       $(SRCS_DIR)/philo_utils.c \
+       $(SRCS_DIR)/start.c \
+       $(SRCS_DIR)/routine.c \
+       $(SRCS_DIR)/watchers.c
 
-CFLAGS = -Wall -Wextra -Werror 
-# -g3 -fsanitize=thread -pthread
+OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 CC = cc
+CFLAGS = -Wall -Wextra -Werror -pthread -I$(INC_DIR)
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
+$(OBJ_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	@printf "  \033[33m⚙\033[0m  Compiling %d files...\n" $(words $(OBJS))
+	@mkdir -p $(OBJ_DIR)
+
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
-	chmod +x $(NAME)
+	@printf "  \033[32m✓\033[0m Compiled %d files → $(NAME)\n" $(words $(OBJS))
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	rm -rf $(OBJDIR)
+	@printf "  \033[31m✗\033[0m  Removing object files...\n"
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@printf "  \033[31m✗\033[0m  Removing $(NAME)...\n"
+	@rm -f $(NAME)
 
 re: fclean all
-
-$(OBJDIR)/%.o: src/%.c
-	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
