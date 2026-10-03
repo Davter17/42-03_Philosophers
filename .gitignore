@@ -2,3 +2,4 @@ obj/
 philo
 .DS_Store
 *.o
+.vscode/
